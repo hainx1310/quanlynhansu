@@ -9,12 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("employee")
 public class Employee {
-
+	
 	@Id
 	private int id;
 	@NotNull(message = "First name not blank!")
 	private String firstName;
-	@NotNull(message = "Last name not blank!")
+	@NotNull(message = "${firstNotBlank}")
 	private String lastName;
 	private int age;
 	@NotNull(message = "Email not blank!")

@@ -14,12 +14,12 @@ public class QuanlynhansuApplication {
 	}
 
 	@Bean
-    public ValidatingMongoEventListener validatingMongoEventListener() {
-        return new ValidatingMongoEventListener(validator());
-    }
+	public ValidatingMongoEventListener validatingMongoEventListener() {
+		return new ValidatingMongoEventListener(validator());
+	}
 
-    @Bean
-    public LocalValidatorFactoryBean validator() {
-        return new LocalValidatorFactoryBean();
-    }
+	@Bean
+	public LocalValidatorFactoryBean validator() {
+		return new LocalValidatorFactoryBean();
+	}
 }
