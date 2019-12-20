@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { EmployeeModalComponent } from '../employee-modal/employee-modal.component';
+import { EmployeeModalConfirmDeleteComponent } from '../employee-modal-confirm-delete/employee-modal-confirm-delete.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -16,11 +17,13 @@ export class EmployeeListComponent implements OnInit {
 
   // khai bao bien
   private tittle: string = 'Danh sách nhân viên';
-  private dataSource = new MatTableDataSource<Employee>();
-  displayedColumns: string[] = ['select', 'fullName', 'age', 'sex', 'email'];
+  private dataSource = new MatTableDataSource<any>();
+  private displayedColumns: string[] = ['select', 'fullName', 'age', 'sex', 'email', 'action'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  selection = new SelectionModel<Employee>(true, []);
-  employee: Employee;
+  private selection = new SelectionModel<Employee>(true, []);
+  private employee: Employee;
+  private pageSize: number;
+  private pageIndex: number;
 
   constructor(
     @Inject(EmployeeService) private employeeService: EmployeeService,
@@ -36,7 +39,14 @@ export class EmployeeListComponent implements OnInit {
   reloadData() {
     this.employeeService.getAllEmployees().subscribe(
       res => {
-        this.dataSource = new MatTableDataSource<Employee>(res);
+        this.dataSource = new MatTableDataSource<any>(res);
+        console.log("this.dataSource");
+        console.log(this.dataSource);
+        this.pageSize = res.content.length;
+        console.log(this.pageSize);
+        console.log("this.dataSource.paginator");
+        console.log(this.dataSource.paginator);
+        
         this.dataSource.paginator = this.paginator;
       },
       error => {
@@ -48,20 +58,82 @@ export class EmployeeListComponent implements OnInit {
 
   openModalCreateEmployee(): void {
     const dialogRef = this.dialog.open(EmployeeModalComponent, {
-      width: '250px',
+      width: '450px',
       data: { tittle: 'Thêm mới nhân viên', employee: null }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.employee = result;
+      this.saveEmployee(result);
     });
+  }
+
+  openModalUpdateEmployee(emp: Employee) {
+    let id: string = emp.id;
+    const dialogRef = this.dialog.open(EmployeeModalComponent, {
+      width: '450px',
+      data: { tittle: 'Sửa nhân viên', employee: emp }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.updateEmployee(id, result);
+    });
+  }
+
+  openModalConfirmDeleteEmployee(id: string, firstName: string, lastName: string) {
+
+    const dialogRef = this.dialog.open(EmployeeModalConfirmDeleteComponent, {
+      width: '450px',
+      data: { tittle: 'Xác nhận xóa', name: lastName + ' ' + firstName }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.isDelete === true) {
+        console.log('call delete');
+        this.deleteEmployee(id);
+      }
+    });
+  }
+
+  saveEmployee(employee: Employee) {
+    this.employeeService.createEmployee(employee).subscribe(response => {
+      if (response) {
+        this.reloadData();
+        this.toastr.success("Thêm nhân viên thành công!");
+      }
+    }, error => {
+      console.log(error);
+
+    })
+  }
+
+  updateEmployee(id: string, employee: Employee) {
+    this.employeeService.updateEmployee(id, employee).subscribe(response => {
+      if (response) {
+        this.reloadData();
+        this.toastr.success("Cập nhật nhân viên thành công!");
+      }
+    }, error => {
+      console.log(error);
+
+    })
+  }
+
+  deleteEmployee(id: string) {
+    this.employeeService.deleteEmployee(id).subscribe(response => {
+      if (response) {
+        this.reloadData();
+        this.toastr.success("Xóa nhân viên thành công!");
+      }
+    }, error => {
+      console.log(error);
+
+    })
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.pageSize;
     return numSelected === numRows;
   }
 

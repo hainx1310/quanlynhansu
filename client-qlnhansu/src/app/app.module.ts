@@ -8,11 +8,12 @@ import { EmployeeModalComponent } from './component/employee-modal/employee-moda
 import { EmployeeDetailsComponent } from './component/employee-details/employee-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyNavComponent } from './my-nav/my-nav/my-nav.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCheckboxModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatDatepicker, MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, MatTableModule } from '@angular/material';
+import { EmployeeModalConfirmDeleteComponent } from './component/employee-modal-confirm-delete/employee-modal-confirm-delete.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
     EmployeeListComponent,
     EmployeeModalComponent,
     EmployeeDetailsComponent,
-    MyNavComponent
+    MyNavComponent,
+    EmployeeModalConfirmDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +44,7 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
     MatInputModule,
     MatNativeDateModule,
     MatTableModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right'
@@ -54,6 +57,9 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [EmployeeModalComponent]
+  entryComponents: [
+    EmployeeModalComponent,
+    EmployeeModalConfirmDeleteComponent
+  ]
 })
 export class AppModule { }

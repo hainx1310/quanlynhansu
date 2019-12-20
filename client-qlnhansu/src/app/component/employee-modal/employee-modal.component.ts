@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Employee } from 'src/app/model/Employee';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 export interface DialogData {
   animal: string;
@@ -15,28 +14,30 @@ export interface DialogData {
 })
 export class EmployeeModalComponent implements OnInit {
 
-
   private form: FormGroup;
 
   constructor(
     @Inject(MatDialogRef) public dialogRef: MatDialogRef<EmployeeModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Employee,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(FormBuilder) private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
-    // this.form = new FormGroup({
-    //   'firstName': new FormControl(this.data.firstName, [
-    //     Validators.required,
-    //     Validators.minLength(4),
-    //   ]),
-    //   'lastName': new FormControl(this.data.lastName, [
-    //     Validators.required,
-    //     Validators.minLength(4),
-    //   ]),
-    //   'age': new FormControl(this.data.age),
-    //   'sex': new FormControl(this.data.sex),
-    //   'email': new FormControl(this.data.email),
-    // });
+    this.form = this.formBuilder.group({
+      firstName: [this.data.employee ? this.data.employee.firstName : '', Validators.required],
+      lastName: [this.data.employee ? this.data.employee.lastName : '', Validators.required],
+      age: [this.data.employee ? this.data.employee.age : ''],
+      sex: [this.data.employee ? this.data.employee.sex : ''],
+      email: [this.data.employee ? this.data.employee.email : '', Validators.required]
+    });
+  }
+
+  submit(): void {
+    console.log(this.form.value)
+    if (this.form.invalid) {
+      return;
+    }
+    this.dialogRef.close(this.form.value)
   }
 
   onNoClick(): void {

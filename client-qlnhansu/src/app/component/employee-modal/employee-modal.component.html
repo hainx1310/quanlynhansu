@@ -1,21 +1,22 @@
 <h1 mat-dialog-title>{{data.tittle}}</h1>
 <div mat-dialog-content>
-  <mat-form-field>
-    <input matInput [(ngModel)]="firstName" placeholder="Họ" required />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [(ngModel)]="lastName" placeholder="Tên" required />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [(ngModel)]="age" placeholder="Tuổi" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [(ngModel)]="sex" placeholder="Giới tính" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [(ngModel)]="email" placeholder="Email" required />
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data.employee" cdkFocusInitial>Lưu</button>
-</div>
+  <form [formGroup]="form">
+    <mat-form-field>
+      <input matInput formControlName="firstName" placeholder="Họ" required />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="lastName" placeholder="Tên" required />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="age" placeholder="Tuổi" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="sex" placeholder="Giới tính" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="email" placeholder="Email" required />
+    </mat-form-field>
+  </form>
+  <div mat-dialog-actions>
+    <button mat-button (click)="submit()" cdkFocusInitial>Lưu</button>
+  </div>

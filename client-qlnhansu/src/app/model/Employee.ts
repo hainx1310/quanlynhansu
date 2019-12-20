@@ -1,7 +1,7 @@
 import { Timestamp } from 'rxjs';
 
 export class Employee {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     age: number;

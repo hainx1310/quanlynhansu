@@ -12,7 +12,7 @@ export class EmployeeService {
 
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
-  getEmployeeById(id: number): Observable<Employee> {
+  getEmployeeById(id: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.baseUrl}/${id}`);
   }
 
@@ -20,11 +20,11 @@ export class EmployeeService {
     return this.http.post<Employee>(`${this.baseUrl}`, employee);
   }
 
-  updateEmployee(id: number, value: any): Observable<Employee> {
+  updateEmployee(id: string, value: any): Observable<Employee> {
     return this.http.put<Employee>(`${this.baseUrl}/${id}`, value);
   }
 
-  deleteEmployee(id: number): Observable<any> {
+  deleteEmployee(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`, { responseType: 'text' });
   }
 
