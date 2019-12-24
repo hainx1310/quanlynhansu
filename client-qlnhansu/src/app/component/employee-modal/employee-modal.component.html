@@ -3,18 +3,27 @@
   <form [formGroup]="form">
     <mat-form-field>
       <input matInput formControlName="firstName" placeholder="Họ" required />
+      <mat-error *ngIf="form.invalid">Invalid</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="lastName" placeholder="Tên" required />
+      <mat-error *ngIf="form.invalid">Invalid</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="age" placeholder="Tuổi" />
+      <mat-error *ngIf="form.invalid">Invalid</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput formControlName="sex" placeholder="Giới tính" />
+      <mat-label>Giới tính</mat-label>
+      <mat-select formControlName="sex">
+        <mat-option value="Male">Male</mat-option>
+        <mat-option value="Female">Female</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.invalid">Invalid</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput formControlName="email" placeholder="Email" required />
+      <mat-error *ngIf="form.invalid">Invalid</mat-error>
     </mat-form-field>
   </form>
   <div mat-dialog-actions>

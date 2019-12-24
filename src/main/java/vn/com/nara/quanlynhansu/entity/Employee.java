@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("employee")
 public class Employee {
-	
+
 	@Id
-	private int id;
+	private String id;
 	@NotNull(message = "First name not blank!")
 	private String firstName;
 	@NotNull(message = "${firstNotBlank}")
@@ -26,7 +26,7 @@ public class Employee {
 
 	}
 
-	public Employee(int id, String firstName, String lastName, int age, String email, String sex,
+	public Employee(String id, String firstName, String lastName, int age, String email, String sex,
 			Timestamp dateOfBirth) {
 		super();
 		this.id = id;
@@ -38,11 +38,11 @@ public class Employee {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

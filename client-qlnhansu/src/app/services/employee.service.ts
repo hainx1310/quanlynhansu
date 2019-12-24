@@ -31,4 +31,12 @@ export class EmployeeService {
   getAllEmployees(): Observable<any> {
     return this.http.get(`${this.baseUrl}`);
   }
+
+  getPageEmployee(pageIdx: number, pageSize: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}?page=${pageIdx}&size=${pageSize}`);
+  }
+
+  getPageEmployeeSorted(pageIdx: number, pageSize: number, propertiesSort: string, typeSort: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}?page=${pageIdx}&size=${pageSize}&propertieSort=${propertiesSort}&typeSort=${typeSort}`);
+  }
 }

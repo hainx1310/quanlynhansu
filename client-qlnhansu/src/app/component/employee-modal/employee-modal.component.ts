@@ -34,6 +34,7 @@ export class EmployeeModalComponent implements OnInit {
 
   submit(): void {
     console.log(this.form.value)
+    console.log(this.form)
     if (this.form.invalid) {
       return;
     }

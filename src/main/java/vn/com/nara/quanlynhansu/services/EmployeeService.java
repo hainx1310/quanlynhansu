@@ -1,6 +1,6 @@
 package vn.com.nara.quanlynhansu.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import vn.com.nara.quanlynhansu.entity.Employee;
 
@@ -11,7 +11,17 @@ public interface EmployeeService {
 	 * 
 	 * @return
 	 */
-	List<Employee> findAll();
+	Page<Employee> findAll(int pageIdx, int pageSize, String propertieSort, boolean typeSort);
+
+	/**
+	 * Search like last name
+	 * 
+	 * @param pageIdx
+	 * @param pageSize
+	 * @param lastName
+	 * @return
+	 */
+	Page<Employee> findByLasrNameLike(int pageIdx, int pageSize, String lastName);
 
 	/**
 	 * Find employee by id
@@ -19,7 +29,7 @@ public interface EmployeeService {
 	 * @param id
 	 * @return
 	 */
-	Employee findById(int id);
+	Employee findById(String id);
 
 	/**
 	 * Add a new employee
@@ -36,12 +46,12 @@ public interface EmployeeService {
 	 * @param employee
 	 * @return
 	 */
-	Employee update(int id, Employee employee);
+	Employee update(String id, Employee employee);
 
 	/**
 	 * Delete employee
 	 * 
 	 * @param id
 	 */
-	void delete(int id);
+	void delete(String id);
 }
