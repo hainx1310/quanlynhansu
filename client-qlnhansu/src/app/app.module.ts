@@ -12,9 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyNavComponent } from './my-nav/my-nav/my-nav.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCheckboxModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatDatepicker, MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, MatTableModule, MatSortModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCheckboxModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatDatepicker, MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, MatTableModule, MatSortModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material';
 import { EmployeeModalConfirmDeleteComponent } from './component/employee-modal-confirm-delete/employee-modal-confirm-delete.component';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [

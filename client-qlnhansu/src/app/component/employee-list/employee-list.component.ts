@@ -34,6 +34,8 @@ export class EmployeeListComponent implements OnInit {
   private sorted = false;
   private typeSort: string = "true";
   private propertieSort = "null";
+  private search = false;
+  private keywordSearch = "";
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
@@ -99,7 +101,15 @@ export class EmployeeListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.saveEmployee(result);
+      if (result && result.isCreatedOrUpdateSucess == true) {
+        this.totalRecords += 1;
+        this.reloadData();
+        this.toastr.success("Thêm nhân viên thành công!");
+        if (this.sizeOfPage == this.pageSize) {
+          this.pageEvent.pageIndex += 1;
+          this.pageEvent.previousPageIndex += 1;
+        }
+      }
     });
   }
 
@@ -111,12 +121,14 @@ export class EmployeeListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.updateEmployee(id, result);
+      if (result && result.isCreatedOrUpdateSucess == true) {
+        this.reloadData();
+        this.toastr.success("Cập nhật viên thành công!");
+      }
     });
   }
 
   openModalConfirmDeleteEmployee(id: string, firstName: string, lastName: string) {
-
     const dialogRef = this.dialog.open(EmployeeModalConfirmDeleteComponent, {
       width: '450px',
       data: { tittle: 'Xác nhận xóa', name: lastName + ' ' + firstName }
@@ -129,37 +141,7 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  saveEmployee(employee: Employee) {
-    this.employeeService.createEmployee(employee).subscribe(response => {
-      if (response) {
-        this.totalRecords += 1;
-        if (this.sizeOfPage == this.pageSize) {
-          this.pageEvent.pageIndex += 1;
-          this.pageEvent.previousPageIndex += 1;
-        }
-        this.reloadData();
-        this.toastr.success("Thêm nhân viên thành công!");
-      }
-    }, error => {
-      console.log(error);
-
-    })
-  }
-
-  updateEmployee(id: string, employee: Employee) {
-    this.employeeService.updateEmployee(id, employee).subscribe(response => {
-      if (response) {
-        this.reloadData();
-        this.toastr.success("Cập nhật nhân viên thành công!");
-      }
-    }, error => {
-      console.log(error);
-
-    })
-  }
-
   deleteEmployee(id: string) {
-    console.log(this.pageSize);
     this.employeeService.deleteEmployee(id).subscribe(response => {
       if (response) {
         if (this.sizeOfPage == 1 && this.pageEvent.pageIndex > 0) {
@@ -179,34 +161,11 @@ export class EmployeeListComponent implements OnInit {
     })
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.sizeOfPage;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: Employee): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${this.dataSource.data.length + 1}`;
-  }
-
   swapPage(event) {
-    console.log(event);
     if (event) {
       this.pageEvent = event;
       console.log(this.pageEvent);
-      if (this.sorted === false) {
+      if (this.sorted === false && this.search == false) {
         this.employeeService.getPageEmployee(this.pageEvent.pageIndex, this.pageEvent.pageSize).subscribe(
           res => {
             this.dataSource = new MatTableDataSource<Employee>(res.content);
@@ -215,9 +174,24 @@ export class EmployeeListComponent implements OnInit {
             console.log(error);
           }
         )
-      } else {
+      } else if (this.sorted == true && this.search == false) {
         this.sortData(this.propertieSort, this.typeSort);
+      } else if (this.search == true) {
+        this.searchEmployeeByFirstName();
       }
     }
+  }
+
+  searchEmployeeByFirstName() {
+    this.search = true;
+    this.employeeService.searchEmployeeByFirstName(this.pageEvent.pageIndex, this.pageEvent.pageSize, this.keywordSearch).subscribe(
+      res => {
+        this.dataSource = new MatTableDataSource<Employee>(res.content);
+        this.sizeOfPage = res.content.length;
+        this.totalRecords = res.totalElements;
+      }, error => {
+        this.toastr.error("Có lỗi xảy ra!")
+      }
+    )
   }
 }

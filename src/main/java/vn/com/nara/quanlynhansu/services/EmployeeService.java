@@ -21,7 +21,7 @@ public interface EmployeeService {
 	 * @param lastName
 	 * @return
 	 */
-	Page<Employee> findByLasrNameLike(int pageIdx, int pageSize, String lastName);
+	Page<Employee> findByFirstNameLike(int pageIdx, int pageSize, String lastName);
 
 	/**
 	 * Find employee by id

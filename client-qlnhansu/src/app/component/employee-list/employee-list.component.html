@@ -42,7 +42,8 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Tìm kiếm">
+                    <input [(ngModel)]="keywordSearch" matInput placeholder="Tìm kiếm"
+                        (input)="searchEmployeeByFirstName()">
                 </mat-form-field>
             </th>
             <td mat-cell *matCellDef="let element" id="action-column">

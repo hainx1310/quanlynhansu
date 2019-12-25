@@ -25,86 +25,89 @@ import vn.com.nara.quanlynhansu.services.EmployeeService;
 @RequestMapping(value = "/employees")
 public class EmployeeController {
 
-	@Autowired
-	private EmployeeService employeeService;
+    @Autowired
+    private EmployeeService employeeService;
 
-	/**
-	 * API find all employee
-	 * 
-	 * @return
-	 */
-	@GetMapping(value = "")
-	public ResponseEntity<Page<Employee>> findAll(@RequestParam(value = "page", defaultValue = "0") int pageIdx,
-			@RequestParam(value = "size", defaultValue = "5") int pageSize,
-			@RequestParam(value = "propertieSort", defaultValue = "null") String propertieSort,
-			@RequestParam(value = "typeSort", defaultValue = "true") String typeSort) {
-		boolean boolTypeSort = "true".equals(typeSort) ? true : false;
-		return ResponseEntity.ok(this.employeeService.findAll(pageIdx, pageSize, propertieSort, boolTypeSort));
-	}
+    /**
+     * API find all employee
+     *
+     * @return
+     */
+    @GetMapping(value = "")
+    public ResponseEntity<Page<Employee>> findAll(@RequestParam(value = "page", defaultValue = "0") int pageIdx,
+                                                  @RequestParam(value = "size", defaultValue = "5") int pageSize,
+                                                  @RequestParam(value = "propertieSort", defaultValue = "null") String propertieSort,
+                                                  @RequestParam(value = "typeSort", defaultValue = "true") String typeSort) {
+        boolean boolTypeSort = "true".equals(typeSort) ? true : false;
+        return ResponseEntity.ok(this.employeeService.findAll(pageIdx, pageSize, propertieSort, boolTypeSort));
+    }
 
-	/**
-	 * API find employee by id
-	 * 
-	 * @param id
-	 * @return
-	 */
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Employee> findById(@PathVariable("id") String id) {
-		return ResponseEntity.ok(this.employeeService.findById(id));
-	}
+    /**
+     * API find employee by id
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Employee> findById(@PathVariable("id") String id) {
+        return ResponseEntity.ok(this.employeeService.findById(id));
+    }
 
-	/**
-	 * API create a new employee
-	 * 
-	 * @param employee
-	 * @return
-	 */
-	@PostMapping(value = "")
-	public ResponseEntity<Employee> create(@Valid @RequestBody Employee employee) {
-		return ResponseEntity.ok(this.employeeService.create(employee));
-	}
+    /**
+     * API create a new employee
+     *
+     * @param employee
+     * @return
+     */
+    @PostMapping(value = "")
+    public ResponseEntity<Employee> create(@Valid @RequestBody Employee employee) {
+        return ResponseEntity.ok(this.employeeService.create(employee));
+    }
 
-	/**
-	 * API update employee
-	 * 
-	 * @param id
-	 * @param employee
-	 * @return
-	 */
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<Employee> update(@PathVariable("id") String id, @Valid @RequestBody Employee employee) {
+    /**
+     * API update employee
+     *
+     * @param id
+     * @param employee
+     * @return
+     */
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Employee> update(@PathVariable("id") String id, @Valid @RequestBody Employee employee) {
 
-		// check employee exists
-		Employee employeeFromDB = this.employeeService.findById(id);
+        // check employee exists
+        Employee employeeFromDB = this.employeeService.findById(id);
 
-		// update
-		employeeFromDB.setFirstName(employee.getFirstName());
-		employeeFromDB.setLastName(employee.getLastName());
-		employeeFromDB.setEmail(employee.getEmail());
-		employeeFromDB.setDateOfBirth(employee.getDateOfBirth());
-		employeeFromDB.setSex(employee.getSex());
+        // update
+        employeeFromDB.setFirstName(employee.getFirstName());
+        employeeFromDB.setLastName(employee.getLastName());
+        employeeFromDB.setEmail(employee.getEmail());
+        employeeFromDB.setDateOfBirth(employee.getDateOfBirth());
+        employeeFromDB.setSex(employee.getSex());
+        employeeFromDB.setCarrerIds(employee.getCarrerIds());
 
-		// save to db
-		return ResponseEntity.ok(this.employeeService.update(id, employeeFromDB));
-	}
+        // save to db
+        return ResponseEntity.ok(this.employeeService.update(id, employeeFromDB));
+    }
 
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Object> deleteEmployeeById(@PathVariable("id") String id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> deleteEmployeeById(@PathVariable("id") String id) {
 
-		// check exists
-		this.employeeService.findById(id);
-		// delete
-		this.employeeService.delete(id);
+        // check exists
+        this.employeeService.findById(id);
+        // delete
+        this.employeeService.delete(id);
 
-		return new ResponseEntity<Object>("xoa thanh cong", HttpStatus.OK);
-	}
+        return new ResponseEntity<Object>("xoa thanh cong", HttpStatus.OK);
+    }
 
-	@GetMapping(value = "/search")
-	public ResponseEntity<Page<Employee>> findAll(@RequestParam(value = "page", defaultValue = "0") int pageIdx,
-			@RequestParam(value = "size", defaultValue = "5") int pageSize, @RequestParam("keyworks") String keywork) {
-		if (keywork != null) {
-			keywork = keywork.trim();
-		}
-		return ResponseEntity.ok(this.employeeService.findByLasrNameLike(pageIdx, pageSize, keywork));
-	}
+    @GetMapping(value = "/search")
+    public ResponseEntity<Page<Employee>> findAll(@RequestParam("keywords") String keywords,
+                                                  @RequestParam(value = "page", defaultValue = "0") int pageIdx,
+                                                  @RequestParam(value = "size", defaultValue = "5") int pageSize) {
+        if (keywords != null) {
+            keywords = keywords.trim();
+        }
+        return ResponseEntity.ok(this.employeeService.findByFirstNameLike(pageIdx, pageSize, keywords));
+    }
+
 }
