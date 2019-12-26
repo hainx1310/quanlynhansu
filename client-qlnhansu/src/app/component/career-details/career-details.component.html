@@ -1,0 +1,15 @@
+<div id="header">
+  <div class="row">
+      <div class="col-md-8">
+          <h4>Danh sách nhân viên thuộc nhóm {{career.name}}</h4>
+      </div>
+  </div>
+</div>
+<div *ngIf="career?.employeeIds?.length > 0">
+  <div *ngFor="let employee of career.employeeIds">
+      <li>{{employee.lastName}} {{employee.firstName}}</li>
+  </div>
+</div>
+<div *ngIf="!career?.employeeIds">
+  <li>Không có nhân viên nào để hiển thị</li>
+</div>

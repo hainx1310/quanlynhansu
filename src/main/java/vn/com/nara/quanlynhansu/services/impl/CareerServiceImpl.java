@@ -44,7 +44,7 @@ public class CareerServiceImpl implements CareerService {
     }
 
     @Override
-    public Career update(String id, Career career) {
+    public Career update(Career career) {
         return this.careerRepository.save(career);
     }
 

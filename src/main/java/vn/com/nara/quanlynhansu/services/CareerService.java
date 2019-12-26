@@ -40,11 +40,10 @@ public interface CareerService {
     /**
      * Update Career
      *
-     * @param id
      * @param career
      * @return
      */
-    Career update(String id, Career career);
+    Career update(Career career);
 
     /**
      * Delete career

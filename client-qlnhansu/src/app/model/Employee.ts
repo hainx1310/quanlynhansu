@@ -8,4 +8,5 @@ export class Employee {
     email: string;
     sex: string;
     dateOfBirth: Date;
+    carrerIds: any;
 }

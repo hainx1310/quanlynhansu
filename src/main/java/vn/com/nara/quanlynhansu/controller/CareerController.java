@@ -9,6 +9,7 @@ import vn.com.nara.quanlynhansu.services.CareerService;
 
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "career")
 public class CareerController {
@@ -39,7 +40,8 @@ public class CareerController {
     private ResponseEntity<Career> update(@PathVariable("id") String id, @Valid @RequestBody Career career) {
         Career careerFromDB = this.careerService.findById(id);
         careerFromDB.setName(career.getName());
-        return ResponseEntity.ok(this.careerService.update(id, career));
+        careerFromDB.setEmployeeIds(career.getEmployeeIds());
+        return ResponseEntity.ok(this.careerService.update(careerFromDB));
     }
 
     @DeleteMapping(value = "/{id}")

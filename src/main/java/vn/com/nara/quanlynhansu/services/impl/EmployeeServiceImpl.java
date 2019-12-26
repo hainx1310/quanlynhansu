@@ -62,5 +62,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         Pageable pageableRequest = PageRequest.of(pageIdx, pageSize);
         return this.employeeRepository.findEmployeeByFirstNameLike(lastName, pageableRequest);
     }
-
 }

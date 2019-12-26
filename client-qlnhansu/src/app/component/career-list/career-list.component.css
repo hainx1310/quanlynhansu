@@ -1,0 +1,5 @@
+table{width:100%}
+#action-column{text-align:right;padding-right:0}
+#action-column i{margin-left:20px}
+th.mat-sort-header-sorted{color:#000}
+#search{border-style:groove}

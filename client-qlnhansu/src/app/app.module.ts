@@ -15,6 +15,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCheckboxModule, MatPaginatorModule, MatFormFieldModule, MatSelectModule, MatDatepickerModule, MatDialogModule, MatInputModule, MatPaginatorIntl, MatDatepicker, MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, MatTableModule, MatSortModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material';
 import { EmployeeModalConfirmDeleteComponent } from './component/employee-modal-confirm-delete/employee-modal-confirm-delete.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CareerListComponent } from './component/career-list/career-list.component';
+import { CareerDetailsComponent } from './component/career-details/career-details.component';
+import { CareerModalComponent } from './component/career-modal/career-modal.component';
+import { CareerConfirmDeleteComponent } from './component/career-confirm-delete/career-confirm-delete.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     EmployeeModalComponent,
     EmployeeDetailsComponent,
     MyNavComponent,
-    EmployeeModalConfirmDeleteComponent
+    EmployeeModalConfirmDeleteComponent,
+    CareerListComponent,
+    CareerDetailsComponent,
+    CareerModalComponent,
+    CareerConfirmDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +70,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
   bootstrap: [AppComponent],
   entryComponents: [
     EmployeeModalComponent,
-    EmployeeModalConfirmDeleteComponent
+    EmployeeModalConfirmDeleteComponent,
+    CareerModalComponent,
+    CareerConfirmDeleteComponent,
   ]
 })
 export class AppModule { }

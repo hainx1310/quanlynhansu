@@ -1,1 +1,20 @@
-<p>employee-details works!</p>
+<div id="header">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>THông tin chi tiết nhân viên</h4>
+        </div>
+    </div>
+</div>
+<p>Họ tên: {{employee?.lastName}} {{employee?.firstName}}</p>
+<p>Tuổi: {{employee?.age}}</p>
+<p>Giới tính: {{employee?.sex}}</p>
+<p>Email: {{employee?.email}}</p>
+<p>Nghề nghiệp: </p>
+<div *ngIf="employee?.carrerIds?.length > 0">
+    <div *ngFor="let career of employee.carrerIds">
+        <li>{{career.name}}</li>
+    </div>
+</div>
+<div *ngIf="!employee?.carrerIds">
+    <li>Thất nghiệp</li>
+</div>
