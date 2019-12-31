@@ -1,5 +1,6 @@
 package vn.com.nara.quanlynhansu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,7 +24,8 @@ public class Employee {
     @NotBlank(message = "Sex not blank!")
     private String sex;
     private Timestamp dateOfBirth;
-    @DBRef
+    @DBRef(lazy = true)
+    @JsonIgnore
     private List<Career> carrerIds;
 
     public Employee() {

@@ -43,4 +43,8 @@ export class CareerService {
   searchCareerByName(pageIdx: number, pageSize: number, name: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/search?keywords=${name}&page=${pageIdx}&size=${pageSize}`);
   }
+
+  addEmployeeToCareer(employeeIds: string, careerId: string): Observable<any> {
+    return this.http.post(`http://localhost:8182/api/careerEmployee/addEmployees/${careerId}/${employeeIds}`, {careerId, employeeIds});
+  }
 }

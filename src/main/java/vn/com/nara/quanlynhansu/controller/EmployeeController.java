@@ -99,15 +99,4 @@ public class EmployeeController {
 
         return new ResponseEntity<Object>("xoa thanh cong", HttpStatus.OK);
     }
-
-    @GetMapping(value = "/search")
-    public ResponseEntity<Page<Employee>> findAll(@RequestParam("keywords") String keywords,
-                                                  @RequestParam(value = "page", defaultValue = "0") int pageIdx,
-                                                  @RequestParam(value = "size", defaultValue = "5") int pageSize) {
-        if (keywords != null) {
-            keywords = keywords.trim();
-        }
-        return ResponseEntity.ok(this.employeeService.findByFirstNameLike(pageIdx, pageSize, keywords));
-    }
-
 }

@@ -43,4 +43,20 @@ export class EmployeeService {
   searchEmployeeByFirstName(pageIdx: number, pageSize: number, firstName: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/search?keywords=${firstName}&page=${pageIdx}&size=${pageSize}`);
   }
+
+  getPageEmployeeAddToCareer(pageIdx: number, pageSize: number, careerId: string): Observable<any> {
+    return this.http.get(`http://localhost:8182/api/careerEmployee/getListEmployeeToCareer?page=${pageIdx}&size=${pageSize}&careerId=${careerId}`);
+  }
+
+  getPageEmployeeSortedAddToCareer(pageIdx: number, pageSize: number, propertiesSort: string, typeSort: string, careerId: string): Observable<any> {
+    return this.http.get(`http://localhost:8182/api/careerEmployee/getListEmployeeToCareer?page=${pageIdx}&size=${pageSize}&propertieSort=${propertiesSort}&typeSort=${typeSort}&careerId=${careerId}`);
+  }
+
+  searchEmployeeByFirstNameAddToCareer(pageIdx: number, pageSize: number, firstName: string, careerId: string): Observable<any> {
+    return this.http.get(`http://localhost:8182/api/careerEmployee/search?keywords=${firstName}&page=${pageIdx}&size=${pageSize}&careerId=${careerId}`);
+  }
+
+  getPageEmployeeByCareerIds(pageIdx: number, pageSize: number, careerId: string): Observable<any> {
+    return this.http.get(`http://localhost:8182/api/careerEmployee/getListEmployeeByCareerId?page=${pageIdx}&size=${pageSize}&careerId=${careerId}`);
+  }
 }

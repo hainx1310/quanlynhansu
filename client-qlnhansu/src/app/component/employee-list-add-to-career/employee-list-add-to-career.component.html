@@ -1,0 +1,59 @@
+<div id="header">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>{{tittle}}</h4>
+        </div>
+        <div class="col-md-4 text-right">
+            <i title="Thêm mới nhân viên" class="material-icons" (click)="openModalCreateEmployee()">add_box</i>
+        </div>
+    </div>
+
+</div>
+<div>
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                (click)="sortData('firstName', typeSort= typeSort=='true' ? 'false' : 'true')"> Họ tên </th>
+            <td mat-cell *matCellDef="let element">{{element.lastName}}
+                {{element.firstName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                (click)="sortData('age', typeSort= typeSort=='true' ? 'false' : 'true')"> Tuổi </th>
+            <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sex">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                (click)="sortData('sex', typeSort= typeSort=='true' ? 'false' : 'true')"> Giới tính </th>
+            <td mat-cell *matCellDef="let element"> {{element.sex}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                (click)="sortData('email', typeSort= typeSort=='true' ? 'false' : 'true')"> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-form-field class="example-full-width">
+                    <input [(ngModel)]="keywordSearch" matInput placeholder="Tìm kiếm"
+                        (input)="searchEmployeeByFirstNameAddToCareer()">
+                </mat-form-field>
+            </th>
+            <td mat-cell *matCellDef="let element" id="action-column">
+                <i (click)="addEmployeeToCareer(element.id)" title="Thêm" class="material-icons">add_box</i>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+        </tr>
+    </table>
+    <mat-paginator [length]="totalRecords" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="swapPage($event)" showFirstLastButtons>
+    </mat-paginator>
+</div>

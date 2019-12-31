@@ -19,6 +19,7 @@ import { CareerListComponent } from './component/career-list/career-list.compone
 import { CareerDetailsComponent } from './component/career-details/career-details.component';
 import { CareerModalComponent } from './component/career-modal/career-modal.component';
 import { CareerConfirmDeleteComponent } from './component/career-confirm-delete/career-confirm-delete.component';
+import { EmployeeListAddToCareerComponent } from './component/employee-list-add-to-career/employee-list-add-to-career.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { CareerConfirmDeleteComponent } from './component/career-confirm-delete/
     CareerListComponent,
     CareerDetailsComponent,
     CareerModalComponent,
-    CareerConfirmDeleteComponent
+    CareerConfirmDeleteComponent,
+    EmployeeListAddToCareerComponent
   ],
   imports: [
     BrowserModule,

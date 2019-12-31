@@ -9,10 +9,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import vn.com.nara.quanlynhansu.entity.Career;
 import vn.com.nara.quanlynhansu.entity.Employee;
 import vn.com.nara.quanlynhansu.exception.EntityNotFoundException;
 import vn.com.nara.quanlynhansu.repository.EmployeeRepository;
 import vn.com.nara.quanlynhansu.services.EmployeeService;
+
+import java.util.Collection;
+import java.util.List;
 
 @Service
 @Configurable
@@ -33,7 +37,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .findAll(PageRequest.of(pageIdx, pageSize, Sort.by(propertieSort).ascending()));
         }
         return this.employeeRepository.findAll(PageRequest.of(pageIdx, pageSize, Sort.by(propertieSort).descending()));
-
     }
 
     @Override
@@ -58,8 +61,40 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Page<Employee> findEmployeesByCarrerIdsNotIn(int pageIdx, int pageSize, String propertieSort, boolean typeSort, List<Career> carrerIds) {
+        if (!"firstName".equals(propertieSort) && !"age".equals(propertieSort) && "sex".equals(propertieSort)
+                && "email".equals(propertieSort)) {
+            return this.employeeRepository.findEmployeesByCarrerIdsNotIn(carrerIds, PageRequest.of(pageIdx, pageSize));
+        }
+        if (typeSort == true) {
+            return this.employeeRepository
+                    .findEmployeesByCarrerIdsNotIn(carrerIds, PageRequest.of(pageIdx, pageSize, Sort.by(propertieSort).ascending()));
+        }
+        return this.employeeRepository.findEmployeesByCarrerIdsNotIn(carrerIds, PageRequest.of(pageIdx, pageSize, Sort.by(propertieSort)));
+    }
+
+    @Override
+    public Page<Employee> findByFirstNameLikeAndCareerNotIn(int pageIdx, int pageSize, String lastName, List<Career> carrerIds) {
+        Pageable pageableRequest = PageRequest.of(pageIdx, pageSize);
+        return this.employeeRepository.findEmployeeByFirstNameLikeAndCarrerIdsNotIn(lastName, carrerIds, pageableRequest);
+    }
+
+    @Override
     public Page<Employee> findByFirstNameLike(int pageIdx, int pageSize, String lastName) {
         Pageable pageableRequest = PageRequest.of(pageIdx, pageSize);
         return this.employeeRepository.findEmployeeByFirstNameLike(lastName, pageableRequest);
+    }
+
+    @Override
+    public Page<Employee> findEmployeeByCareerIds(int pageIdx, int pageSize, String propertieSort, boolean typeSort, List<Career> carrerIds) {
+        if (!"firstName".equals(propertieSort) && !"age".equals(propertieSort) && "sex".equals(propertieSort)
+                && "email".equals(propertieSort)) {
+            return this.employeeRepository.findEmployeesByCarrerIdsIn(carrerIds, PageRequest.of(pageIdx, pageSize));
+        }
+        if (typeSort == true) {
+            return this.employeeRepository
+                    .findEmployeesByCarrerIdsIn(carrerIds, PageRequest.of(pageIdx, pageSize, Sort.by(propertieSort).ascending()));
+        }
+        return this.employeeRepository.findEmployeesByCarrerIdsIn(carrerIds, PageRequest.of(pageIdx, pageSize, Sort.by(propertieSort)));
     }
 }

@@ -1,15 +1,66 @@
 <div id="header">
   <div class="row">
-      <div class="col-md-8">
-          <h4>Danh sách nhân viên thuộc nhóm {{career.name}}</h4>
-      </div>
+    <div class="col-md-8">
+      <h4>Danh sách nhân viên thuộc nhóm {{career?.name}}</h4>
+    </div>
+    <div class="col-md-4 text-right">
+      <i title="Thêm mới nhân viên" class="material-icons" (click)="isShow = !isShow">add_box</i>
+    </div>
   </div>
-</div>
-<div *ngIf="career?.employeeIds?.length > 0">
-  <div *ngFor="let employee of career.employeeIds">
-      <li>{{employee.lastName}} {{employee.firstName}}</li>
+  <div *ngIf="career?.employeeIds?.length > 0">
+    <div>
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header
+            (click)="sortData('firstName', typeSort= typeSort=='true' ? 'false' : 'true')"> Họ tên </th>
+          <td mat-cell *matCellDef="let element">{{element.lastName}}
+            {{element.firstName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header
+            (click)="sortData('age', typeSort= typeSort=='true' ? 'false' : 'true')"> Tuổi </th>
+          <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sex">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header
+            (click)="sortData('sex', typeSort= typeSort=='true' ? 'false' : 'true')"> Giới tính </th>
+          <td mat-cell *matCellDef="let element"> {{element.sex}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header
+            (click)="sortData('email', typeSort= typeSort=='true' ? 'false' : 'true')"> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field class="example-full-width">
+              <input [(ngModel)]="keywordSearch" matInput placeholder="Tìm kiếm" (input)="searchEmployeeByFirstName()">
+            </mat-form-field>
+          </th>
+          <td mat-cell *matCellDef="let element" id="action-column">
+            <i (click)="openModalConfirmDeleteEmployee(element.id, [element.firstName], [element.lastName])"
+              class="material-icons">delete</i>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+        </tr>
+      </table>
+      <mat-paginator [length]="totalRecords" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="swapPage($event)" showFirstLastButtons>
+      </mat-paginator>
+    </div>
   </div>
-</div>
-<div *ngIf="!career?.employeeIds">
-  <li>Không có nhân viên nào để hiển thị</li>
-</div>
+  <div *ngIf="!career?.employeeIds || career?.employeeIds?.length==0">
+    <li>Không có nhân viên nào để hiển thị</li>
+  </div>
+
+  <div *ngIf="isShow">
+    <app-employee-list-add-to-career (btnAddEmployeeClick)= "initData()" [careerId] = "career?.id"></app-employee-list-add-to-career>
+  </div>
